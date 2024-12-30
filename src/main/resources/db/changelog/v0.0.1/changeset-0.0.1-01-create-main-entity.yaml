@@ -1,0 +1,303 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0.0.1 create person
+      author: Rishat Imangulov
+      context: developing
+      comment: developing main db structure
+      changes:
+
+        # ADVERTISEMENT
+        - createTable:
+            schemaName: ticketing_schema
+            tableName: advertisement
+            remarks: info about where from this client
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  defaultValueComputed: gen_random_uuid()
+              - column:
+                  name: title
+                  type: varchar(64)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+
+        # PERSON
+        - createTable:
+            schemaName: ticketing_schema
+            tableName: person
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  defaultValueComputed: gen_random_uuid()
+              - column:
+                  name: fullName
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: phone_primary
+                  type: varchar(15)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone_secondary
+                  type: varchar(15)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: email
+                  type: varchar(100)
+              - column:
+                  name: telegram
+                  type: varchar(200)
+              - column:
+                  name: advertisement
+                  type: UUID
+                  constraints:
+                    foreignKeyName: fk_person_adv_id
+                    referencedTableSchemaName: ticketing_schema
+                    referencedTableName: advertisement
+                    referencedColumnNames: id
+              - column:
+                  name: client_status
+                  type: varchar(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: comment
+                  type: varchar(200)
+
+        # OFFICE
+        - createTable:
+            schemaName: ticketing_schema
+            tableName: office
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  defaultValueComputed: gen_random_uuid()
+              - column:
+                  name: shortname
+                  type: varchar(5)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+
+        # USER
+        - createTable:
+            schemaName: ticketing_schema
+            tableName: user
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  defaultValueComputed: gen_random_uuid()
+              - column:
+                  name: name
+                  type: varchar(64)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: person_id
+                  type: UUID
+                  constraints:
+                    foreignKeyName: fk_user_person_id
+                    referencedTableSchemaName: ticketing_schema
+                    referencedTableName: person
+                    referencedColumnNames: id
+              - column:
+                  name: office_id
+                  type: UUID
+                  constraints:
+                    foreignKeyName: fk_user_office_id
+                    referencedTableSchemaName: ticketing_schema
+                    referencedTableName: office
+                    referencedColumnNames: id
+
+        # TICKET STAGE
+        - createTable:
+            schemaName: ticketing_schema
+            tableName: ticket_stage
+            remarks: "stage of ticket - title and description"
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  autoIncrement: false
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  defaultValueComputed: gen_random_uuid()
+              - column:
+                  name: title
+                  type: varchar(64)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+
+        # TICKET
+        - createTable:
+            schemaName: ticketing_schema
+            tableName: ticket
+            remarks: "main document - is created when the device is accepted"
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  defaultValueComputed: gen_random_uuid()
+              - column:
+                  name: number
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: year
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+              - column:
+                  name: receiver_user
+                  type: UUID
+                  constraints:
+                    foreignKeyName: fk_ticket_user_receiver_id
+                    referencedTableSchemaName: ticketing_schema
+                    referencedTableName: user
+                    referencedColumnNames: id
+              - column:
+                  name: executor_user
+                  type: UUID
+                  constraints:
+                    foreignKeyName: fk_ticket_user_executor_id
+                    referencedTableSchemaName: ticketing_schema
+                    referencedTableName: user
+                    referencedColumnNames: id
+              - column:
+                  name: person_id
+                  type: UUID
+                  constraints:
+                    foreignKeyName: fk_ticket_person_id
+                    referencedTableSchemaName: ticketing_schema
+                    referencedTableName: person
+                    referencedColumnNames: id
+        - addUniqueConstraint:
+            schemaName: ticketing_schema
+            tableName: ticket
+            columnNames: year, number
+            constraintName: unique_ticket_year_number
+
+        # TICKET STAGE CHANGE
+        - createTable:
+            schemaName: ticketing_schema
+            tableName: ticket_stage_change
+            remarks: "line from story of changing ticket_stage: dataTime+user+stage"
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  defaultValueComputed: gen_random_uuid()
+              - column:
+                  name: edited_at
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ticket_stage_id
+                  type: UUID
+                  constraints:
+                    foreignKeyName: fk_ticket_stage_change_ticket_change_id
+                    referencedTableSchemaName: ticketing_schema
+                    referencedTableName: ticket_stage
+                    referencedColumnNames: id
+              - column:
+                  name: ticket_id
+                  type: UUID
+                  constraints:
+                    foreignKeyName: fk_ticket_stage_change_ticket_id
+                    referencedTableSchemaName: ticketing_schema
+                    referencedTableName: ticket
+                    referencedColumnNames: id
+              - column:
+                  name: user_id
+                  type: UUID
+                  constraints:
+                    foreignKeyName: fk_ticket_stage_change_user_id
+                    referencedTableSchemaName: ticketing_schema
+                    referencedTableName: user
+                    referencedColumnNames: id
+
+        # NOTE
+        - createTable:
+            schemaName: ticketing_schema
+            tableName: note
+            remarks: "free-form note from user"
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  defaultValueComputed: gen_random_uuid()
+              - column:
+                  name: createdDate
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: data
+                  type: varchar(1024)
+              - column:
+                  name: ticket_id
+                  type: UUID
+                  constraints:
+                    foreignKeyName: fk_note_ticket_id
+                    referencedTableSchemaName: ticketing_schema
+                    referencedTableName: ticket
+                    referencedColumnNames: id
+              - column:
+                  name: user_id
+                  type: UUID
+                  constraints:
+                    foreignKeyName: fk_note_user_id
+                    referencedTableSchemaName: ticketing_schema
+                    referencedTableName: user
+                    referencedColumnNames: id
