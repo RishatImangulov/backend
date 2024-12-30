@@ -1,0 +1,142 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0.0.1 create person
+      author: Rishat Imangulov
+      context: developing
+      comment: developing main db structure
+      changes:
+
+
+        # ADVERTISEMENT
+        - addForeignKeyConstraint:
+            baseTableSchemaName: ticketing_schema
+            referencedTableSchemaName: ticketing_schema
+            baseTableName: advertisement
+            baseColumnNames: created_by
+            constraintName: fk_adv_user_create_user
+            referencedTableName: user
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableSchemaName: ticketing_schema
+            referencedTableSchemaName: ticketing_schema
+            baseTableName: advertisement
+            baseColumnNames: last_modified_by
+            constraintName: fk_adv_user_mod_user
+            referencedTableName: user
+            referencedColumnNames: id
+
+          # PERSON
+        - addForeignKeyConstraint:
+            baseTableSchemaName: ticketing_schema
+            referencedTableSchemaName: ticketing_schema
+            baseTableName: person
+            baseColumnNames: created_by
+            constraintName: fk_adv_user_create_user
+            referencedTableName: user
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableSchemaName: ticketing_schema
+            referencedTableSchemaName: ticketing_schema
+            baseTableName: person
+            baseColumnNames: last_modified_by
+            constraintName: fk_adv_user_mod_user
+            referencedTableName: user
+            referencedColumnNames: id
+
+
+        # OFFICE
+        - addForeignKeyConstraint:
+            baseTableSchemaName: ticketing_schema
+            referencedTableSchemaName: ticketing_schema
+            baseTableName: office
+            baseColumnNames: created_by
+            constraintName: fk_adv_user_create_user
+            referencedTableName: user
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableSchemaName: ticketing_schema
+            referencedTableSchemaName: ticketing_schema
+            baseTableName: office
+            baseColumnNames: last_modified_by
+            constraintName: fk_adv_user_mod_user
+            referencedTableName: user
+            referencedColumnNames: id
+
+
+        # TICKET STAGE
+
+        - addForeignKeyConstraint:
+            baseTableSchemaName: ticketing_schema
+            referencedTableSchemaName: ticketing_schema
+            baseTableName: ticket_stage
+            baseColumnNames: created_by
+            constraintName: fk_adv_user_create_user
+            referencedTableName: user
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableSchemaName: ticketing_schema
+            referencedTableSchemaName: ticketing_schema
+            baseTableName: ticket_stage
+            baseColumnNames: last_modified_by
+            constraintName: fk_adv_user_mod_user
+            referencedTableName: user
+            referencedColumnNames: id
+
+
+      # TICKET
+
+        - addForeignKeyConstraint:
+            baseTableSchemaName: ticketing_schema
+            referencedTableSchemaName: ticketing_schema
+            baseTableName: ticket
+            baseColumnNames: created_by
+            constraintName: fk_adv_user_create_user
+            referencedTableName: user
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableSchemaName: ticketing_schema
+            referencedTableSchemaName: ticketing_schema
+            baseTableName: ticket
+            baseColumnNames: last_modified_by
+            constraintName: fk_adv_user_mod_user
+            referencedTableName: user
+            referencedColumnNames: id
+
+      # TICKET STAGE CHANGE
+
+        - addForeignKeyConstraint:
+            baseTableSchemaName: ticketing_schema
+            referencedTableSchemaName: ticketing_schema
+            baseTableName: ticket_stage_change
+            baseColumnNames: created_by
+            constraintName: fk_adv_user_create_user
+            referencedTableName: user
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableSchemaName: ticketing_schema
+            referencedTableSchemaName: ticketing_schema
+            baseTableName: ticket_stage_change
+            baseColumnNames: last_modified_by
+            constraintName: fk_adv_user_mod_user
+            referencedTableName: user
+            referencedColumnNames: id
+
+      # NOTE
+
+        - addForeignKeyConstraint:
+            baseTableSchemaName: ticketing_schema
+            referencedTableSchemaName: ticketing_schema
+            baseTableName: note
+            baseColumnNames: created_by
+            constraintName: fk_adv_user_create_user
+            referencedTableName: user
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableSchemaName: ticketing_schema
+            referencedTableSchemaName: ticketing_schema
+            baseTableName: note
+            baseColumnNames: last_modified_by
+            constraintName: fk_adv_user_mod_user
+            referencedTableName: user
+            referencedColumnNames: id
+
