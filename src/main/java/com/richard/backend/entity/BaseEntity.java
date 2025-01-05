@@ -41,10 +41,10 @@ public abstract class BaseEntity {
     private LocalDateTime lastModifiedDate;
 
     @CreatedBy
-    private String createdBy;
+    private UUID createdBy;
 
     @LastModifiedBy
-    private String lastModifiedBy;
+    private UUID lastModifiedBy;
 
     @Version
     private Long version;

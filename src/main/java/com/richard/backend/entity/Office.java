@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "office")
+@Table(name = "office", schema = "ticketing_schema")
 public class Office extends BaseEntity {
 
     @Column(name = "name", nullable = false, length = 255)

@@ -37,6 +37,11 @@ databaseChangeLog:
                   type: UUID
 
               - column:
+                  name: version
+                  type: BIGINT
+                  defaultValue: 0
+
+              - column:
                   name: is_deleted
                   type: boolean
                   defaultOnNull: false
@@ -81,7 +86,10 @@ databaseChangeLog:
               - column:
                   name: last_modified_by
                   type: UUID
-
+              - column:
+                  name: version
+                  type: BIGINT
+                  defaultValue: 0
               - column:
                   name: is_deleted
                   type: boolean
@@ -155,6 +163,10 @@ databaseChangeLog:
                   name: last_modified_by
                   type: UUID
               - column:
+                  name: version
+                  type: BIGINT
+                  defaultValue: 0
+              - column:
                   name: is_deleted
                   type: boolean
                   defaultOnNull: false
@@ -187,6 +199,11 @@ databaseChangeLog:
                   type: varchar(64)
                   constraints:
                     nullable: false
+              - column:
+                  name: is_working
+                  type: BOOLEAN
+                  defaultOnNull: true
+
               - column:
                   name: person_id
                   type: UUID
@@ -235,7 +252,10 @@ databaseChangeLog:
               - column:
                   name: last_modified_by
                   type: UUID
-
+              - column:
+                  name: version
+                  type: BIGINT
+                  defaultValue: 0
               - column:
                   name: is_deleted
                   type: boolean
@@ -284,7 +304,10 @@ databaseChangeLog:
               - column:
                   name: last_modified_by
                   type: UUID
-
+              - column:
+                  name: version
+                  type: BIGINT
+                  defaultValue: 0
               - column:
                   name: is_deleted
                   type: boolean
@@ -364,7 +387,10 @@ databaseChangeLog:
               - column:
                   name: last_modified_by
                   type: UUID
-
+              - column:
+                  name: version
+                  type: BIGINT
+                  defaultValue: 0
               - column:
                   name: is_deleted
                   type: boolean
@@ -426,7 +452,10 @@ databaseChangeLog:
               - column:
                   name: last_modified_by
                   type: UUID
-
+              - column:
+                  name: version
+                  type: BIGINT
+                  defaultValue: 0
               - column:
                   name: is_deleted
                   type: boolean
