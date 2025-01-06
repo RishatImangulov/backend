@@ -8,6 +8,8 @@ import java.util.UUID;
 
 public interface OfficeRepository extends JpaRepository<Office, UUID> {
 
+    List<Office> findAllByIsDeletedFalse();
+
     List<Office> findByNameContainingIgnoreCase(String fragment);
 
     boolean existsByNameIgnoreCase(String title);

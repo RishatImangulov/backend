@@ -23,6 +23,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
+
 public abstract class BaseEntity {
 
     @Id

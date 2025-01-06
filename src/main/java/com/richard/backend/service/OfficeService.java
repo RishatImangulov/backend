@@ -8,7 +8,6 @@ import com.richard.backend.exception.FieldIsBlank;
 import com.richard.backend.exception.NotFoundEntityByUuid;
 import com.richard.backend.mapper.OfficeMapper;
 import com.richard.backend.repository.OfficeRepository;
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -32,10 +31,16 @@ public class OfficeService {
     private final OfficeRepository officeRepository;
     private final OfficeMapper officeMapper;
     private final CacheManager cacheManager;
-    private final EntityManager entityManager;
 
     @Cacheable(value = "offices")
     public List<OfficeResponseDto> getAll() {
+        return officeRepository.findAllByIsDeletedFalse()
+                .stream()
+                .map(officeMapper::toOfficeResponseDto)
+                .toList();
+    }
+
+    public List<OfficeResponseDto> getAllWithDeleted() {
         var offices = officeRepository.findAll();
         offices.forEach(office -> Objects.requireNonNull(cacheManager.getCache("office"))
                 .put(office.getId(), officeMapper.toOfficeResponseDto(office)));
@@ -44,6 +49,7 @@ public class OfficeService {
                 .map(officeMapper::toOfficeResponseDto)
                 .toList();
     }
+
 
     @Cacheable(value = "office", key = "#id")
     public OfficeResponseDto getById(UUID id) {
@@ -66,9 +72,10 @@ public class OfficeService {
             throw new FieldIsBlank("Short name", ENTITY_NAME);
         }
 
-//        requestDto.setId(UUID.randomUUID()); // it give me problem with version
+        requestDto.setId(null);
         requestDto.setShortName(requestDto.getShortName().trim());
         requestDto.setName(requestDto.getName().trim());
+
 
         if (officeRepository.existsByShortNameIgnoreCase(requestDto.getShortName())) {
             throw new DuplicateFieldException("ShortName", ENTITY_NAME);
@@ -85,7 +92,8 @@ public class OfficeService {
     }
 
     @Transactional
-    @CachePut(value = "offices", key = "#office.id")
+    @CacheEvict(value = "offices", allEntries = true)
+    @CachePut(value = "office", key = "#id")
     public OfficeResponseDto update(UUID id, OfficeRequestDto requestDto) {
 
         var office = officeRepository.findById(id)
@@ -99,23 +107,20 @@ public class OfficeService {
 
         var saved = officeMapper.updateWithNull(requestDto, office);
 
-        //TODO do i need correction with cache?
-        Objects.requireNonNull(cacheManager.getCache("offices")).clear();
-        cacheManager.getCache("office").putIfAbsent(saved.getId(), saved);
-
         return officeMapper.toOfficeResponseDto(saved);
     }
 
-    public Office delete(UUID id) {
+    @Transactional
+    @CacheEvict(value = "offices", allEntries = true)
+    @CachePut(value = "office", key = "#id")
+    public void delete(UUID id) {
         var office = officeRepository.findById(id)
                 .orElseThrow(() -> new NotFoundEntityByUuid(ENTITY_NAME, id.toString()));
-
         if (office != null) {
             officeRepository.delete(office);
         }
-
-        return office;
     }
+
 
     public void validateUniqueness(OfficeRequestDto requestDto, Office existingOffice) {
         if (!existingOffice.getName().equalsIgnoreCase(requestDto.getName()) &&

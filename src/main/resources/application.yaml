@@ -10,7 +10,9 @@ spring:
     username: richard
     password: 5565
     driver-class-name: org.postgresql.Driver
+
   jpa:
+
     hibernate:
       ddl-auto: none
     show-sql: true
