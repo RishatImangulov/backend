@@ -46,12 +46,11 @@ public class OfficeResource {
                 .buildAndExpand(officeResponseDto.id())
                 .toUri();
         return ResponseEntity.created(location).body(officeResponseDto);
-//        return ResponseEntity.ok().body(officeResponseDto);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<OfficeResponseDto> update(@PathVariable UUID id,
-                                                    @RequestBody OfficeRequestDto officeRequestDto) {
+                                                    @Valid @RequestBody OfficeRequestDto officeRequestDto) {
         var updatedAd = officeService.update(id, officeRequestDto);
         return ResponseEntity.ok(updatedAd);
     }

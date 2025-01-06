@@ -16,7 +16,6 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -67,7 +66,7 @@ public class OfficeService {
             throw new FieldIsBlank("Short name", ENTITY_NAME);
         }
 
-//        requestDto.setId(UUID.randomUUID()); // because we are creating
+//        requestDto.setId(UUID.randomUUID()); // it give me problem with version
         requestDto.setShortName(requestDto.getShortName().trim());
         requestDto.setName(requestDto.getName().trim());
 
@@ -79,19 +78,9 @@ public class OfficeService {
         }
 
         Office office = officeMapper.toEntity(requestDto);
-//        office.setVersion(0L);
 
         var saved = officeRepository.save(office);
         return officeMapper.toOfficeResponseDto(saved);
-
-//        // Преобразование DTO в сущность
-//        Office office = officeMapper.toEntity(requestDto);
-//
-//        // Сохранение в базе данных
-//       entityManager.persist(office);
-//
-//        // Преобразование сущности в DTO
-//        return officeMapper.toOfficeResponseDto(office);
 
     }
 
@@ -103,8 +92,8 @@ public class OfficeService {
                 .orElseThrow(() -> new NotFoundEntityByUuid(ENTITY_NAME, id.toString()));
 
         requestDto.setId(id);
-        requestDto.setShortName(requestDto.getShortName().trim());
-        requestDto.setName(requestDto.getName().trim());
+        requestDto.setShortName(requestDto.getShortName() == null ? null : requestDto.getShortName().trim());
+        requestDto.setName(requestDto.getName() == null ? null : requestDto.getName().trim());
 
         validateUniqueness(requestDto, office);
 
