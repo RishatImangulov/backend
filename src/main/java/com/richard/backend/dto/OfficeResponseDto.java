@@ -1,5 +1,6 @@
 package com.richard.backend.dto;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -8,5 +9,11 @@ import java.util.UUID;
 public record OfficeResponseDto(
         UUID id,
         String name,
-        String shortName) {
+        String shortName,
+        LocalDateTime createdDate,
+        LocalDateTime lastModifiedDate,
+        UUID createdBy,
+        UUID lastModifiedBy,
+        Long version,
+        Boolean isDeleted) {
 }

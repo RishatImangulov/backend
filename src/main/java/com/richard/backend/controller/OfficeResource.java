@@ -15,6 +15,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/offices")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173") // Разрешённый домен
 public class OfficeResource {
 
     private final OfficeService officeService;

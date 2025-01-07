@@ -12,11 +12,11 @@ public interface OfficeRepository extends JpaRepository<Office, UUID> {
 
     List<Office> findByNameContainingIgnoreCase(String fragment);
 
-    boolean existsByNameIgnoreCase(String title);
+    boolean existsByNameIgnoreCase(String name);
 
     List<Office> findByShortNameContainingIgnoreCase(String fragment);
 
-    boolean existsByShortNameIgnoreCase(String title);
+    boolean existsByShortNameIgnoreCase(String name);
 
     List<Office> findByNameContainingIgnoreCaseOrShortNameContainingIgnoreCase(String name, String shortName);
 
