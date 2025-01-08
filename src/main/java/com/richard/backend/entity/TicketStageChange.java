@@ -12,7 +12,7 @@ import lombok.Setter;
 public class TicketStageChange extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ticket_stage_id")
-    private TicketStage ticketStage;
+    private TicketStageBad ticketStage;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ticket_id")

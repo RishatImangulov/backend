@@ -11,7 +11,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "ticket_stage", schema = "ticketing_schema")
 
-public class TicketStage extends BaseEntity {
+public class TicketStageBad extends BaseEntity {
     @Size(max = 64)
     @NotNull
     @Column(name = "title", nullable = false, length = 64)

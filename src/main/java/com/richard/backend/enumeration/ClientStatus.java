@@ -11,6 +11,7 @@ public enum ClientStatus {
     BLACKLIST("Черный список");
 
     ClientStatus(String russianName) {
+
     }
 
 
