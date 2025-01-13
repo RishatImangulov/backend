@@ -3,7 +3,7 @@ package com.richard.backend.service;
 import com.richard.backend.dto.OfficeRequestDto;
 import com.richard.backend.dto.OfficeResponseDto;
 import com.richard.backend.entity.Office;
-import com.richard.backend.exception.DuplicateFieldException;
+import com.richard.backend.exception.NotUniqueFieldException;
 import com.richard.backend.exception.FieldIsBlank;
 import com.richard.backend.exception.NotFoundEntityByUuid;
 import com.richard.backend.mapper.OfficeMapper;
@@ -78,10 +78,10 @@ public class OfficeService {
 
 
         if (officeRepository.existsByShortNameIgnoreCase(requestDto.getShortName())) {
-            throw new DuplicateFieldException("ShortName", ENTITY_NAME);
+            throw new NotUniqueFieldException("ShortName", ENTITY_NAME);
         }
         if (officeRepository.existsByNameIgnoreCase(requestDto.getShortName())) {
-            throw new DuplicateFieldException("Name", ENTITY_NAME);
+            throw new NotUniqueFieldException("Name", ENTITY_NAME);
         }
 
         Office office = officeMapper.toEntity(requestDto);
@@ -125,11 +125,11 @@ public class OfficeService {
     public void validateUniqueness(OfficeRequestDto requestDto, Office existingOffice) {
         if (!existingOffice.getName().equalsIgnoreCase(requestDto.getName()) &&
                 officeRepository.existsByNameIgnoreCase(requestDto.getName())) {
-            throw new DuplicateFieldException("Name", ENTITY_NAME);
+            throw new NotUniqueFieldException("Name", ENTITY_NAME);
         }
         if (!existingOffice.getShortName().equalsIgnoreCase(requestDto.getShortName()) &&
                 officeRepository.existsByShortNameIgnoreCase(requestDto.getShortName())) {
-            throw new DuplicateFieldException("ShortName", ENTITY_NAME);
+            throw new NotUniqueFieldException("ShortName", ENTITY_NAME);
         }
     }
 

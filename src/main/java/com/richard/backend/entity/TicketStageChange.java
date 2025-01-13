@@ -1,5 +1,6 @@
 package com.richard.backend.entity;
 
+import com.richard.backend.enumeration.TicketStage;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +13,7 @@ import lombok.Setter;
 public class TicketStageChange extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ticket_stage_id")
-    private TicketStageBad ticketStage;
+    private TicketStage ticketStage;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ticket_id")

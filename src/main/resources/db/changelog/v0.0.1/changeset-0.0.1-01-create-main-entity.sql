@@ -57,29 +57,31 @@ CREATE TABLE ticketing_schema.user
 );
 
 -- Table: ticket_stage
-CREATE TABLE ticketing_schema.ticket_stage
-(
-    id                 UUID PRIMARY KEY      DEFAULT gen_random_uuid(),
-    created_date       TIMESTAMP    NOT NULL DEFAULT now(),
-    last_modified_date TIMESTAMP    NOT NULL,
-    created_by         UUID,
-    last_modified_by   UUID,
-    version            BIGINT                DEFAULT 0,
-    is_deleted         BOOLEAN               DEFAULT FALSE,
-    title              VARCHAR(64)  NOT NULL UNIQUE,
-    description        VARCHAR(255) NOT NULL
-);
+-- CREATE TABLE ticketing_schema.ticket_stage
+-- (
+--     id                 UUID PRIMARY KEY      DEFAULT gen_random_uuid(),
+--     created_date       TIMESTAMP    NOT NULL DEFAULT now(),
+--     last_modified_date TIMESTAMP    NOT NULL,
+--     created_by         UUID,
+--     last_modified_by   UUID,
+--     version            BIGINT                DEFAULT 0,
+--     is_deleted         BOOLEAN               DEFAULT FALSE,
+--     title              VARCHAR(64)  NOT NULL UNIQUE,
+--     description        VARCHAR(255) NOT NULL
+-- );
+-- Type: ticket_stage
+
 
 -- Table: ticket
 CREATE TABLE ticketing_schema.ticket
 (
-    id                 UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    created_date       TIMESTAMP    NOT NULL DEFAULT now(),
+    id                 UUID PRIMARY KEY   DEFAULT gen_random_uuid(),
+    created_date       TIMESTAMP NOT NULL DEFAULT now(),
     last_modified_date TIMESTAMP NOT NULL,
     created_by         UUID,
     last_modified_by   UUID,
-    version            BIGINT           DEFAULT 0,
-    is_deleted         BOOLEAN          DEFAULT FALSE,
+    version            BIGINT             DEFAULT 0,
+    is_deleted         BOOLEAN            DEFAULT FALSE,
     number             BIGINT    NOT NULL,
     year               INT       NOT NULL,
     created_at         TIMESTAMP,
@@ -92,14 +94,14 @@ CREATE TABLE ticketing_schema.ticket
 -- Table: ticket_stage_change
 CREATE TABLE ticketing_schema.ticket_stage_change
 (
-    id                 UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    created_date       TIMESTAMP    NOT NULL DEFAULT now(),
+    id                 UUID PRIMARY KEY   DEFAULT gen_random_uuid(),
+    created_date       TIMESTAMP NOT NULL DEFAULT now(),
     last_modified_date TIMESTAMP NOT NULL,
     created_by         UUID,
     last_modified_by   UUID,
-    version            BIGINT           DEFAULT 0,
-    is_deleted         BOOLEAN          DEFAULT FALSE,
-    ticket_stage_id    UUID REFERENCES ticketing_schema.ticket_stage (id),
+    version            BIGINT             DEFAULT 0,
+    is_deleted         BOOLEAN            DEFAULT FALSE,
+    ticket_stage       VARCHAR(64),
     ticket_id          UUID REFERENCES ticketing_schema.ticket (id),
     user_id            UUID REFERENCES ticketing_schema.user (id)
 );
@@ -107,14 +109,14 @@ CREATE TABLE ticketing_schema.ticket_stage_change
 -- Table: note
 CREATE TABLE ticketing_schema.note
 (
-    id                 UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    created_date       TIMESTAMP    NOT NULL DEFAULT now(),
+    id                 UUID PRIMARY KEY   DEFAULT gen_random_uuid(),
+    created_date       TIMESTAMP NOT NULL DEFAULT now(),
     last_modified_date TIMESTAMP NOT NULL,
     created_by         UUID,
     last_modified_by   UUID,
-    version            BIGINT           DEFAULT 0,
-    is_deleted         BOOLEAN          DEFAULT FALSE,
-    data               VARCHAR(1024),
+    version            BIGINT             DEFAULT 0,
+    is_deleted         BOOLEAN            DEFAULT FALSE,
+    data               TEXT,
     ticket_id          UUID REFERENCES ticketing_schema.ticket (id),
     user_id            UUID REFERENCES ticketing_schema.user (id)
 );

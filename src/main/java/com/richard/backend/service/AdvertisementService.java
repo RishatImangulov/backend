@@ -3,7 +3,7 @@ package com.richard.backend.service;
 import com.richard.backend.dto.AdvRequestDto;
 import com.richard.backend.dto.AdvResponseDto;
 import com.richard.backend.entity.Advertisement;
-import com.richard.backend.exception.DuplicateFieldException;
+import com.richard.backend.exception.NotUniqueFieldException;
 import com.richard.backend.exception.FieldIsBlank;
 import com.richard.backend.exception.NotFoundEntityByUuid;
 import com.richard.backend.mapper.AdvertisementMapper;
@@ -78,10 +78,10 @@ public class AdvertisementService {
 
 
         if (advertisementRepository.existsByTitleIgnoreCase(requestDto.getTitle())) {
-            throw new DuplicateFieldException("Title", ENTITY_NAME);
+            throw new NotUniqueFieldException("Title", ENTITY_NAME);
         }
         if (advertisementRepository.existsByDescriptionIgnoreCase(requestDto.getTitle())) {
-            throw new DuplicateFieldException("Description", ENTITY_NAME);
+            throw new NotUniqueFieldException("Description", ENTITY_NAME);
         }
 
         Advertisement advertisement = advertisementMapper.toEntity(requestDto);
@@ -125,11 +125,11 @@ public class AdvertisementService {
     public void validateUniqueness(AdvRequestDto requestDto, Advertisement existingAdvertisement) {
         if (!existingAdvertisement.getDescription().equalsIgnoreCase(requestDto.getDescription()) &&
                 advertisementRepository.existsByDescriptionIgnoreCase(requestDto.getDescription())) {
-            throw new DuplicateFieldException("Description", ENTITY_NAME);
+            throw new NotUniqueFieldException("Description", ENTITY_NAME);
         }
         if (!existingAdvertisement.getTitle().equalsIgnoreCase(requestDto.getTitle()) &&
                 advertisementRepository.existsByTitleIgnoreCase(requestDto.getTitle())) {
-            throw new DuplicateFieldException("Title", ENTITY_NAME);
+            throw new NotUniqueFieldException("Title", ENTITY_NAME);
         }
     }
 

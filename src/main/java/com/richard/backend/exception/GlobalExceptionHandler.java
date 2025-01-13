@@ -37,8 +37,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
-    @ExceptionHandler(DuplicateFieldException.class)
-    public ResponseEntity<String> handleDuplicateTitleException(DuplicateFieldException e) {
+    @ExceptionHandler(NotUniqueFieldException.class)
+    public ResponseEntity<String> handleDuplicateTitleException(NotUniqueFieldException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
