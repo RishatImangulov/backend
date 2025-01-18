@@ -1,5 +1,8 @@
 package com.richard.backend.dto;
 
+
+import jakarta.persistence.Cacheable;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
